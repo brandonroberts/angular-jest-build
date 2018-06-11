@@ -1,24 +1,34 @@
 {
-  "name": "@ngrx/build-angular",
-  "version": "1.0.0",
+  "name": "angular-jest-build",
+  "version": "0.1.0",
   "license": "MIT",
-  "description": "Angular Webpack Build Facade",
+  "description": "Angular Jest Build Facade",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
   "builders": "builders.json",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "copy:files": "cpy {package.json,builders.json,LICENSE,README.md} dist",
+    "copy:schema": "cpy src/jest/schema.json dist/src/jest",
+    "postbuild": "yarn run copy:files && yarn run copy:schema"
   },
   "dependencies": {
+    "jest-editor-support": "^23.0.0"
+  },
+  "peerDependencies": {
     "@angular-devkit/architect": "^0.6.0",
-    "@angular-devkit/build-optimizer": "^0.6.0",
     "@angular-devkit/core": "^0.6.0",
-    "jest": "^23.1.0",
-    "jest-editor-support": "^23.0.1",
-    "rxjs": "^6.0.0",
-    "typescript": "~2.7.2"
+    "jest": "^23.0.0",
+    "rxjs": "^6.0.0"
   },
   "devDependencies": {
-    "@types/node": "^10.3.2"
+    "@angular-devkit/architect": "^0.6.0",
+    "@angular-devkit/core": "^0.6.0",
+    "@types/node": "^10.3.2",
+    "cpy-cli": "^2.0.0",
+    "jest": "^23.0.0",
+    "jest-editor-support": "^23.0.0",
+    "rxjs": "^6.0.0",
+    "typescript": "~2.7.2"
   }
 }

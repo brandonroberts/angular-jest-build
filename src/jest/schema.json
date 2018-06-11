@@ -12,6 +12,25 @@
       "type": "boolean",
       "description": "Run all tests in watch mode.",
       "default": false
+    },
+    "colors": {
+      "type": "boolean",
+      "description": "Display output with colors.",
+      "default": true
+    },
+    "jestPath": {
+      "type": "string",
+      "description": "Path to jest.",
+      "default": "/node_modules/.bin/jest"
+    },
+    "jestConfig": {
+      "type": "string",
+      "description": "Path to jest configuration file."
+    },
+    "updateSnapshots": {
+      "type": "boolean",
+      "description": "Update snapshots during test run.",
+      "default": false
     }
   },
   "additionalProperties": false,

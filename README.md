@@ -1,3 +1,1 @@
-# Angular Webpack Build Facade
-
-WIP
+# Angular Jest Build Facade
