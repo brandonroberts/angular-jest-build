@@ -1,0 +1,21 @@
+{
+  "title": "Jest Runner Target",
+  "description": "Jest Runner target options for Build Facade.",
+  "type": "object",
+  "properties": {
+    "watch": {
+      "type": "boolean",
+      "description": "Run tests for changed files in watch mode.",
+      "default": true
+    },
+    "watchAll": {
+      "type": "boolean",
+      "description": "Run all tests in watch mode.",
+      "default": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    
+  ]
+}
