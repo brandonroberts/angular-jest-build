@@ -1,9 +1,4 @@
-import {
-  BuildEvent,
-  Builder,
-  BuilderConfiguration,
-  BuilderContext,
-} from '@angular-devkit/architect';
+import { BuildEvent, Builder, BuilderConfiguration, BuilderContext } from '@angular-devkit/architect';
 import { Observable, of } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { Runner, ProjectWorkspace } from 'jest-editor-support';
@@ -21,8 +16,7 @@ export interface JestBuilderOptions {
 }
 
 export class JestBuilder implements Builder<JestBuilderOptions> {
-
-  constructor(public context: BuilderContext) { }
+  constructor(public context: BuilderContext) {}
 
   run(builderConfig: BuilderConfiguration<JestBuilderOptions>): Observable<BuildEvent> {
     const options = builderConfig.options;
@@ -36,7 +30,10 @@ export class JestBuilder implements Builder<JestBuilderOptions> {
     );
   }
 
-  private _runJest({ path: rootPath }: { path: string, projectRoot: string }, options: JestBuilderOptions): Observable<BuildEvent> {
+  private _runJest(
+    { path: rootPath }: { path: string; projectRoot: string },
+    options: JestBuilderOptions,
+  ): Observable<BuildEvent> {
     return new Observable(obs => {
       const workspace = {
         rootPath: rootPath,
@@ -57,14 +54,14 @@ export class JestBuilder implements Builder<JestBuilderOptions> {
           }
 
           return Process.createProcess(workspace, flags, { shell: undefined });
-        }
+        },
       });
 
       runner.start(options.watch, options.watchAll);
-      
+
       runner.on('executableStdErr', message => {
         const msg: string = message.toString().trim();
-        
+
         if (/(Watch Usage\b|\s*Press\b\s)/.test(msg)) {
           return;
         }
@@ -79,7 +76,7 @@ export class JestBuilder implements Builder<JestBuilderOptions> {
       return () => {
         obs.complete();
         runner.closeProcess();
-      }
+      };
     });
   }
 }
