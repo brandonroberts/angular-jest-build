@@ -21,8 +21,7 @@ export interface JestBuilderOptions {
 }
 
 export class JestBuilder implements Builder<JestBuilderOptions> {
-
-  constructor(public context: BuilderContext) { }
+  constructor(public context: BuilderContext) {}
 
   run(builderConfig: BuilderConfiguration<JestBuilderOptions>): Observable<BuildEvent> {
     const options = builderConfig.options;
@@ -36,7 +35,10 @@ export class JestBuilder implements Builder<JestBuilderOptions> {
     );
   }
 
-  private _runJest({ path: rootPath }: { path: string, projectRoot: string }, options: JestBuilderOptions): Observable<BuildEvent> {
+  private _runJest(
+    { path: rootPath }: { path: string; projectRoot: string },
+    options: JestBuilderOptions,
+  ): Observable<BuildEvent> {
     return new Observable(obs => {
       if (platform() == 'win32' && options.jestPath && !options.jestPath.endsWith('.cmd')) {
         options.jestPath += '.cmd';
@@ -61,7 +63,7 @@ export class JestBuilder implements Builder<JestBuilderOptions> {
           }
 
           return Process.createProcess(workspace, flags, { shell: undefined });
-        }
+        },
       });
 
       runner.start(options.watch, options.watchAll);
