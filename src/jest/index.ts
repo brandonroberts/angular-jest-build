@@ -1,9 +1,14 @@
-import { BuildEvent, Builder, BuilderConfiguration, BuilderContext } from '@angular-devkit/architect';
+import {
+  BuildEvent,
+  Builder,
+  BuilderConfiguration,
+  BuilderContext,
+} from '@angular-devkit/architect';
+import { getSystemPath, normalize, resolve } from '@angular-devkit/core';
+import { ProjectWorkspace, Runner } from 'jest-editor-support';
+import { platform } from 'os';
 import { Observable, of } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
-import { Runner, ProjectWorkspace } from 'jest-editor-support';
-import * as path from 'path';
-import { resolve } from '@angular-devkit/core';
 const Process = require('jest-editor-support/build/Process');
 
 export interface JestBuilderOptions {
@@ -35,10 +40,14 @@ export class JestBuilder implements Builder<JestBuilderOptions> {
     options: JestBuilderOptions,
   ): Observable<BuildEvent> {
     return new Observable(obs => {
+      if (platform() == 'win32' && options.jestPath && !options.jestPath.endsWith('.cmd')) {
+        options.jestPath += '.cmd';
+      }
+
       const workspace = {
-        rootPath: rootPath,
-        pathToJest: path.resolve(`${rootPath}${options.jestPath}`),
-        pathToConfig: options.jestConfig ? path.resolve(`${rootPath}/${options.jestConfig}`) : undefined,
+        rootPath: getSystemPath(normalize(rootPath)),
+        pathToJest: getSystemPath(normalize(`${rootPath}/${options.jestPath}`)),
+        pathToConfig: options.jestConfig ? getSystemPath(normalize(`${rootPath}/${options.jestConfig}`)) : undefined,
       } as ProjectWorkspace;
 
       const runner: Runner = new Runner(workspace, {
